@@ -43,13 +43,11 @@ ON ESCAPE SET STEP ON
 			m.lnTmp = m.laData(m.lnStart)
 			m.laData(m.lnStart) = m.lnMin
 			m.laData(m.lnMinIndex) = m.lnTmp
-			m.lnSwapCount = m.lnSwapCount + 1
 		ENDIF
 		IF m.lnMaxIndex != m.lnEnd
 			m.lnTmp = m.laData(m.lnEnd)
 			m.laData(m.lnEnd) = m.lnMax
 			m.laData(m.lnMaxIndex) = m.lnTmp
-			m.lnSwapCount = m.lnSwapCount + 1
 		ENDIF
 
 		DO WHILE m.lnStart < m.lnEnd AND m.laData(m.lnStart) = m.laData(m.lnStart + 1)
