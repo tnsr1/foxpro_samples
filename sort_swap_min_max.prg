@@ -17,8 +17,9 @@ ON ESCAPE SET STEP ON
 	DO WHILE m.lnStart < m.lnEnd
 		m.lnMinIndex = m.lnStart
 		m.lnMin = m.laData(m.lnStart)
-		m.lnMaxIndex = m.lnEnd
-		m.lnMax = m.laData(m.lnEnd)
+		m.lnMaxIndex = m.lnStart
+		m.lnMax = m.laData(m.lnStart)
+
 		m.llSorted = .T.
 		FOR m.lni = m.lnStart + 1 TO m.lnEnd
 			IF m.laData(m.lni) < m.laData(m.lni - 1)
@@ -33,20 +34,22 @@ ON ESCAPE SET STEP ON
 				m.lnMaxIndex = m.lni
 			ENDIF
 		ENDFOR
-		IF m.llSorted
-			EXIT
-		ENDIF
-
-		*Swap
+		
+	    IF m.llSorted
+	      EXIT
+	    ENDIF
+		
 		IF m.lnMinIndex != m.lnStart
 			m.lnTmp = m.laData(m.lnStart)
 			m.laData(m.lnStart) = m.lnMin
 			m.laData(m.lnMinIndex) = m.lnTmp
+			m.lnSwapCount = m.lnSwapCount + 1
 		ENDIF
 		IF m.lnMaxIndex != m.lnEnd
 			m.lnTmp = m.laData(m.lnEnd)
 			m.laData(m.lnEnd) = m.lnMax
 			m.laData(m.lnMaxIndex) = m.lnTmp
+			m.lnSwapCount = m.lnSwapCount + 1
 		ENDIF
 
 		DO WHILE m.lnStart < m.lnEnd AND m.laData(m.lnStart) = m.laData(m.lnStart + 1)
