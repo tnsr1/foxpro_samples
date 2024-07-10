@@ -21,6 +21,9 @@ ON ESCAPE SET STEP ON
 		m.lnMax = m.laData(m.lnEnd)
 		m.llSorted = .T.
 		FOR m.lni = m.lnStart + 1 TO m.lnEnd
+			IF m.laData(m.lni) < m.laData(m.lni - 1)
+				m.llSorted = .F.
+			ENDIF
 			IF m.laData(m.lni) < m.lnMin
 				m.lnMin = m.laData(m.lni)
 				m.lnMinIndex = m.lni
