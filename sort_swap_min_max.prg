@@ -1,7 +1,7 @@
 *Foxpro code
 *Sorting array by swap Min and Max
 LOCAL lnMin, lnMax, lnMinIndex, lnMaxIndex, lnStart, lnEnd, lnTmp
-LOCAL lnSize, lni
+LOCAL lnSize, lni, llSorted
 	m.lnSize = 100
 LOCAL ARRAY laData(m.lnSize)
 *Get random data
@@ -19,7 +19,7 @@ ON ESCAPE SET STEP ON
 		m.lnMin = m.laData(m.lnStart)
 		m.lnMaxIndex = m.lnEnd
 		m.lnMax = m.laData(m.lnEnd)
-
+		m.llSorted = .T.
 		FOR m.lni = m.lnStart + 1 TO m.lnEnd
 			IF m.laData(m.lni) < m.lnMin
 				m.lnMin = m.laData(m.lni)
@@ -30,6 +30,9 @@ ON ESCAPE SET STEP ON
 				m.lnMaxIndex = m.lni
 			ENDIF
 		ENDFOR
+		IF m.llSorted
+			EXIT
+		ENDIF
 		DO WHILE m.lnStart < m.lnEnd AND m.laData(m.lnStart) = m.laData(m.lnStart + 1)
 			m.lnStart = m.lnStart + 1
 		ENDDO
