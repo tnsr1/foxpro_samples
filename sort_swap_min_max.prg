@@ -17,8 +17,8 @@ ON ESCAPE SET STEP ON
 	DO WHILE m.lnStart < m.lnEnd
 		m.lnMinIndex = m.lnStart
 		m.lnMin = m.laData(m.lnStart)
-		m.lnMaxIndex = m.lnStart
-		m.lnMax = m.laData(m.lnStart)
+		m.lnMaxIndex = m.lnEnd
+		m.lnMax = m.laData(m.lnEnd)
 
 		m.llSorted = .T.
 		FOR m.lni = m.lnStart + 1 TO m.lnEnd
