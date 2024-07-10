@@ -36,12 +36,8 @@ ON ESCAPE SET STEP ON
 		IF m.llSorted
 			EXIT
 		ENDIF
-		DO WHILE m.lnStart < m.lnEnd AND m.laData(m.lnStart) = m.laData(m.lnStart + 1)
-			m.lnStart = m.lnStart + 1
-		ENDDO
-		DO WHILE m.lnStart < m.lnEnd AND m.laData(m.lnEnd) = m.laData(m.lnEnd - 1)
-			m.lnEnd = m.lnEnd - 1
-		ENDDO
+
+		*Swap
 		IF m.lnMinIndex != m.lnStart
 			m.lnTmp = m.laData(m.lnStart)
 			m.laData(m.lnStart) = m.lnMin
@@ -52,6 +48,14 @@ ON ESCAPE SET STEP ON
 			m.laData(m.lnEnd) = m.lnMax
 			m.laData(m.lnMaxIndex) = m.lnTmp
 		ENDIF
+
+		DO WHILE m.lnStart < m.lnEnd AND m.laData(m.lnStart) = m.laData(m.lnStart + 1)
+			m.lnStart = m.lnStart + 1
+		ENDDO
+		DO WHILE m.lnStart < m.lnEnd AND m.laData(m.lnEnd) = m.laData(m.lnEnd - 1)
+			m.lnEnd = m.lnEnd - 1
+		ENDDO
+
 		m.lnStart = m.lnStart + 1
 		IF m.lnEnd > m.lnStart + 1
 			m.lnEnd = m.lnEnd - 1
