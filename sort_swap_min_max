@@ -8,7 +8,7 @@ LOCAL ARRAY laData(m.lnSize)
 	FOR m.lni = 1 TO m.lnSize
 		m.laData(m.lni) = FLOOR(RAND()*m.lnSize)
 	ENDFOR
-*Èíòåðâàë
+*Interval
 	m.lnStart = 1
 	m.lnEnd = m.lnSize
 *Start
