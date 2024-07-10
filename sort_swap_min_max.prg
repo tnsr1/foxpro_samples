@@ -14,7 +14,7 @@ LOCAL ARRAY laData(m.lnSize)
 *Start
 SET ESCAPE ON
 ON ESCAPE SET STEP ON
-	DO WHILE m.lnStart < m.lnEnd - 1
+	DO WHILE m.lnStart < m.lnEnd
 		m.lnMinIndex = m.lnStart
 		m.lnMin = m.laData(m.lnStart)
 		m.lnMaxIndex = m.lnEnd
@@ -40,9 +40,7 @@ ON ESCAPE SET STEP ON
 			m.laData(m.lnEnd) = m.lnMax
 			m.laData(m.lnMaxIndex) = m.lnTmp
 		ENDIF
-		IF m.lnStart < m.lnEnd - 1
-			m.lnStart = m.lnStart + 1
-		ENDIF
+		m.lnStart = m.lnStart + 1
 		IF m.lnEnd > m.lnStart + 1
 			m.lnEnd = m.lnEnd - 1
 		ENDIF
