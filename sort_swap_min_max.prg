@@ -35,10 +35,11 @@ ON ESCAPE SET STEP ON
 			ENDIF
 		ENDFOR
 		
-	    IF m.llSorted
-	      EXIT
-	    ENDIF
-		
+		IF m.llSorted
+			EXIT
+		ENDIF
+
+		*Swap
 		IF m.lnMinIndex != m.lnStart
 			m.lnTmp = m.laData(m.lnStart)
 			m.laData(m.lnStart) = m.lnMin
