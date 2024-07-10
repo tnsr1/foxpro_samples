@@ -30,6 +30,12 @@ ON ESCAPE SET STEP ON
 				m.lnMaxIndex = m.lni
 			ENDIF
 		ENDFOR
+		DO WHILE m.lnStart < m.lnEnd AND m.laData(m.lnStart) = m.laData(m.lnStart + 1)
+			m.lnStart = m.lnStart + 1
+		ENDDO
+		DO WHILE m.lnStart < m.lnEnd AND m.laData(m.lnEnd) = m.laData(m.lnEnd - 1)
+			m.lnEnd = m.lnEnd - 1
+		ENDDO
 		IF m.lnMinIndex != m.lnStart
 			m.lnTmp = m.laData(m.lnStart)
 			m.laData(m.lnStart) = m.lnMin
