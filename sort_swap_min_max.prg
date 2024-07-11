@@ -1,4 +1,5 @@
 *Foxpro code
+*Двухсторонняя сортировка выбором :: Double selection sort
 *Sorting array by swap Min and Max
 LOCAL lnMin, lnMax, lnMinIndex, lnMaxIndex, lnStart, lnEnd, lnTmp
 LOCAL lnSize, lni, llSorted
