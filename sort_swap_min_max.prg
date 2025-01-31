@@ -48,36 +48,22 @@ ON ESCAPE SET STEP ON
         ENDIF
 
         *Перестановка
-        *Поправка от Deepseek
-        *Если первый элемент это максимум, то перестановку 
-        *надо дклать так
-        IF m.lnMaxIndex = m.lnStart AND m.lnMaxIndex != m.lnEnd
-            m.lnTmp = m.laData(m.lnEnd)
-            m.laData(m.lnEnd) = m.lnMax
-            m.laData(m.lnMaxIndex) = m.lnTmp
-            m.lnMaxIndex = m.lnEnd
-            m.lnSwapCount = m.lnSwapCount + 1
-            IF m.lnMinIndex = m.lnEnd
-            	m.lnMinIndex = m.lnStart
-            ENDIF
-        ENDIF
-        IF m.lnMinIndex = m.lnEnd AND m.lnMinIndex != m.lnStart
-            m.lnTmp = m.laData(m.lnStart)
-            m.laData(m.lnStart) = m.lnMin
-            m.laData(m.lnMinIndex) = m.lnTmp
-            m.lnMinIndex = m.lnStart
-            m.lnSwapCount = m.lnSwapCount + 1
-            IF m.lnMaxIndex = m.lnStart
-            	m.lnMaxIndex = m.lnEnd
-            ENDIF
-        ENDIF
-        ********
         IF m.lnMinIndex != m.lnStart
             m.lnTmp = m.laData(m.lnStart)
             m.laData(m.lnStart) = m.lnMin
             m.laData(m.lnMinIndex) = m.lnTmp
             m.lnSwapCount = m.lnSwapCount + 1
         ENDIF
+
+*Поправка от Deepseek и Mistral
+        *Если первый элемент это максимум, то перестановку 
+        *надо делать так
+        * Проверяем, не совпадает ли индекс максимального значения с новым индексом минимального значения
+        IF m.lnMaxIndex == m.lnStart
+            m.lnMaxIndex = m.lnMinIndex
+        ENDIF
+ ********
+
         IF m.lnMaxIndex != m.lnEnd
             m.lnTmp = m.laData(m.lnEnd)
             m.laData(m.lnEnd) = m.lnMax
