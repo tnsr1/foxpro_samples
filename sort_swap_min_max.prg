@@ -54,6 +54,7 @@ ON ESCAPE SET STEP ON
 	*Перестановка
 	*trying to optimize
 		IF m.lnMaxIndex = m.lnStart AND m.lnMinIndex = m.lnEnd
+			?"m.lnMaxIndex = m.lnStart AND m.lnMinIndex = m.lnEnd"
 			m.lnTmp = m.laData(m.lnEnd)
 			m.laData(m.lnEnd) = m.lnMax
 			m.laData(m.lnStart) = m.lnMin
