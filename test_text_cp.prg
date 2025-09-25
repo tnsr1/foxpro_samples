@@ -1,12 +1,15 @@
 *Foxpro code
+ON KEY LABEL ALT+Q CLEAR EVENTS
+ON KEY LABEL ESC frm.timer1.Enabled = .F.
 CLEAR
 Application.Visible = .F.
 SET SAFETY OFF 
+SET ESCAPE OFF 
 
 PRIVATE lcTempFile, aCharsets[1], i
 lcTempFile = 'c:\temp\chars.txt'
 
-* Aaia?e?oai oanoiaue oaee
+* Генерируем тестовый файл
 SET TEXTMERGE ON
 SET TEXTMERGE TO (lcTempFile)
 FOR i = 192 TO 191 + 32
@@ -15,7 +18,7 @@ ENDFOR
 SET TEXTMERGE TO
 SET TEXTMERGE OFF
 
-* iannea charsets
+* массив charsets
 DIMENSION aCharsets[9,2]
 aCharsets[1,1]=0     && ANSI
 aCharsets[1,2]="Western"
@@ -36,13 +39,17 @@ aCharsets[8,2]="Cyrillic"
 aCharsets[9,1]=163
 aCharsets[9,2]="Vietnamese"
 
-* nicaa?i aeaaiia ieii
+* создаём главное окно
 frm = CREATEOBJECT("FrmMain")
 frm.Show()
 
-* nicaa?i ai?a?iea ieia aey ea?aiai charset
+* создаём дочерние окна для каждого charset
 FOR i=1 TO ALEN(aCharsets,1)
 	*IF !INLIST(aCharsets[i,1],2,77,128,129,134)
+		lcCmd = "PRIVATE frmEdit" + TRANSFORM(i)
+		&lcCmd
+		lcCmd = "frmEdit"+TRANSFORM(i)+"=.F."
+		&lcCmd
 		COPY FILE (lcTempFile) TO (STRTRAN(lcTempFile,".",TRANSFORM(i)+"."))
 	    DO CreateChild WITH STRTRAN(lcTempFile,".",TRANSFORM(i)+"."), aCharsets[i,1], aCharsets[i,2], i
 	*ENDIF
@@ -55,6 +62,7 @@ frmEdit0.FontSize = 15
 frmEdit0.Caption = "FoxFont " + lcTempFile
 MODIFY FILE (lcTempFile) WINDOW wEdit0 IN WINDOW FrmMain SAVE NOWAIT
 
+frm.Timer1.Enabled = .T.
 
 READ EVENTS
 *_SCREEN.FontCharSet = 204
@@ -86,7 +94,54 @@ DEFINE CLASS FrmMain as Form
     WindowType = 1
     Height = 900
     Width = 1200
+    lExit = .F.
+
+ADD OBJECT timer1 as Timer WITH Interval = 2000, Enabled = .F.
+
     PROCEDURE Destroy
         CLEAR EVENTS
+        this.timer1.Enabled = .F.
+        this.lExit = .T.
     ENDPROC
+
+PROCEDURE timer1.Timer
+    LOCAL i
+    FOR i = 1 TO ALEN(aCharsets, 1)
+	    IF this.PArent.lExit
+	    	EXIT
+	    ENDIF
+        lcWin = "wEdit" + TRANSFORM(i)
+        lcFrm = "frmEdit" + TRANSFORM(i)
+        IF TYPE(lcFrm) = "O" AND WONTOP(&lcFrm..Caption) && Если окно существует
+	       	?"Активное окно " + WONTOP()
+	        lErr = .T.
+        	oldCS = TRANSFORM(&lcFrm..FontCharSet)
+        	lni = &lcFrm..FontCharSet
+        	DO WHILE lErr = .T. AND !this.PArent.lExit
+	        	IF lni = 255
+	        		lni = 0
+	        	ELSE
+	  	        	lni = lni + 1
+	        	ENDIF
+	        	*?lcFrm + " " + TRANSFORM(lni)
+        		lErr = .F.
+	
+	        	ON ERROR lErr = .T.
+	
+	        	&lcFrm..FontCharSet = (lni)  && Циклично меняем charset
+	
+	            ON ERROR
+	
+	        	DOEVENTS 
+
+	        ENDDO
+	        WAIT WINDOW "Updating form: " + lcFrm+ ", old charset: " + oldCS + ", new charset: " + TRANSFORM((&lcFrm..FontCharSet)) NOWAIT
+	        &lcFrm..Caption = "Charset ("+TRANSFORM(lni)+")"
+        	*ON ERROR lErr = .T.
+	        *&lcFrm..Caption = &lcFrm..Caption + aCharsets
+	        MODIFY FILE (STRTRAN(lcTempFile,".",TRANSFORM(i)+".")) WINDOW (lcWin) IN WINDOW FrmMain NOEDIT SAVE NOWAIT
+        ENDIF
+    ENDFOR
+ENDPROC
+
 ENDDEFINE
