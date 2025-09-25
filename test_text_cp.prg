@@ -1,3 +1,4 @@
+*Foxpro code
 CLEAR
 Application.Visible = .F.
 
