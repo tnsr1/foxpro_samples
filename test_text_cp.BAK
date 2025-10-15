@@ -16,13 +16,13 @@ lcOldFontCharSet = _SCREEN.FontCharSet
 lcTempFile = 'c:\temp\chars.txt'
 lcChars = ''
 
-* Генерируем тестовые данные
+* Р“РµРЅРµСЂРёСЂСѓРµРј С‚РµСЃС‚РѕРІС‹Рµ РґР°РЅРЅС‹Рµ
 For i = 128 To 127 + 64
   lcChars = lcChars + Textmerge("<<'CODE: #' + TRANSFORM(i) + ' - ' + CHR(i) + ', CODE: #' + TRANSFORM(i+64) + ' - ' + CHR(i+64) + CHR(13) + CHR(10)>>")
 Endfor
 
 
-* массив charsets
+* РјР°СЃСЃРёРІ charsets
 LOCAL lni, llErr, lnj, lcText, lcTmp
 LOCAL ARRAY aCharsets[19,2], laTmp[19]
 
@@ -55,16 +55,16 @@ FOR lni=1 TO ALEN(laTmp)
 ENDFOR 
 
 
-* создаём главное окно
+* СЃРѕР·РґР°С‘Рј РіР»Р°РІРЅРѕРµ РѕРєРЅРѕ
 frm = Createobject("FrmMain")
 frm.Caption = "FrmMain " + C_FONTNAME
 frm.Show()
 
-* создаём дочерние окна для каждого charset
+* СЃРѕР·РґР°С‘Рј РґРѕС‡РµСЂРЅРёРµ РѕРєРЅР° РґР»СЏ РєР°Р¶РґРѕРіРѕ charset
 lnj = 0
 For i=1 To Alen(aCharsets,1)
   llErr = .F.
-  *Проверяем доступность чарсета для шрифта
+  *РџСЂРѕРІРµСЂСЏРµРј РґРѕСЃС‚СѓРїРЅРѕСЃС‚СЊ С‡Р°СЂСЃРµС‚Р° РґР»СЏ С€СЂРёС„С‚Р°
   TRY
      _SCREEN.FontCharSet = aCharsets[i,1]
   CATCH
@@ -78,7 +78,7 @@ For i=1 To Alen(aCharsets,1)
   ENDIF
 Endfor
 
-* Генерируем тестовые данные
+* Р“РµРЅРµСЂРёСЂСѓРµРј С‚РµСЃС‚РѕРІС‹Рµ РґР°РЅРЅС‹Рµ
 lcChars = ""
 For i = 0 To 127
   lcChars = lcChars + Textmerge("<<'CODE: #' + TRANSFORM(i) + ' - ' + CHR(i) + ', CODE: #' + TRANSFORM(i+128) + ' - ' + CHR(i+128) + CHR(13) + CHR(10)>>")
